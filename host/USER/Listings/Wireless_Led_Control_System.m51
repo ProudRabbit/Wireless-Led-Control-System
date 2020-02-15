@@ -1,0 +1,174 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        02/15/2020  17:28:02  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\PROGRAM_FILE\KEIL_V5\C51\BIN\BL51.EXE ..\OBJ\STARTUP.obj, ..\OBJ\main.obj, ..\OBJ\delay.obj TO ..\OBJ\Wireless_Led_Co
+>> ntrol_System PRINT (.\Listings\Wireless_Led_Control_System.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  ..\OBJ\STARTUP.obj (?C_STARTUP)
+  ..\OBJ\main.obj (MAIN)
+  ..\OBJ\delay.obj (DELAY)
+
+
+LINK MAP OF MODULE:  ..\OBJ\Wireless_Led_Control_System (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0020H     UNIT         ?PR?_DELAY_NMS?DELAY
+            CODE    0023H     0011H     UNIT         ?PR?DELAY5US?DELAY
+            CODE    0034H     000FH     UNIT         ?PR?DELAY5MS?DELAY
+            CODE    0043H     000CH     UNIT         ?C_C51STARTUP
+            CODE    004FH     0009H     UNIT         ?PR?MAIN?MAIN
+
+
+
+OVERLAY MAP OF MODULE:   ..\OBJ\Wireless_Led_Control_System (?C_STARTUP)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?MAIN
+
+?PR?MAIN?MAIN
+  +--> ?PR?_DELAY_NMS?DELAY
+
+
+
+SYMBOL TABLE OF MODULE:  ..\OBJ\Wireless_Led_Control_System (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:0043H         SEGMENT       ?C_C51STARTUP
+  I:0008H         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+BL51 BANKED LINKER/LOCATER V6.22                                                      02/15/2020  17:28:02  PAGE 2
+
+
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:0046H         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:0043H         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:0043H         LINE#         133
+  C:0045H         LINE#         134
+  C:0046H         LINE#         135
+  C:0047H         LINE#         136
+  C:0049H         LINE#         185
+  C:004CH         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  C:004FH         PUBLIC        main
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  D:00C8H         PUBLIC        T2CON
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          MAIN
+  C:004FH         LINE#         3
+  C:004FH         LINE#         4
+  C:004FH         LINE#         5
+  C:004FH         LINE#         6
+  C:004FH         LINE#         7
+  C:0056H         LINE#         8
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+  -------         MODULE        DELAY
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  C:0034H         PUBLIC        Delay5ms
+  D:00A8H         PUBLIC        IE
+  C:0023H         PUBLIC        Delay5us
+BL51 BANKED LINKER/LOCATER V6.22                                                      02/15/2020  17:28:02  PAGE 3
+
+
+  D:00B8H         PUBLIC        IP
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  C:0003H         PUBLIC        _delay_nms
+  D:00C8H         PUBLIC        T2CON
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          _DELAY_NMS
+  D:0006H         SYMBOL        k
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:0003H         LINE#         7
+  C:0003H         LINE#         8
+  C:0003H         LINE#         11
+  C:000DH         LINE#         12
+  C:000DH         LINE#         13
+  C:0010H         LINE#         14
+  C:001BH         LINE#         15
+  C:0022H         LINE#         16
+  -------         ENDPROC       _DELAY_NMS
+  -------         PROC          DELAY5US
+  C:0023H         LINE#         23
+  C:0023H         LINE#         24
+  C:0023H         LINE#         25
+  C:0027H         LINE#         26
+  C:002BH         LINE#         27
+  C:002FH         LINE#         28
+  C:0033H         LINE#         29
+  -------         ENDPROC       DELAY5US
+  -------         PROC          DELAY5MS
+  -------         DO            
+  D:0006H         SYMBOL        n
+  -------         ENDDO         
+  C:0034H         LINE#         36
+  C:0034H         LINE#         37
+  C:0034H         LINE#         38
+  C:0038H         LINE#         40
+  C:0042H         LINE#         41
+  -------         ENDPROC       DELAY5MS
+  -------         ENDMOD        DELAY
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DELAY5US?DELAY
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?DELAY5MS?DELAY
+
+Program Size: data=9.0 xdata=0 code=88
+LINK/LOCATE RUN COMPLETE.  2 WARNING(S),  0 ERROR(S)
