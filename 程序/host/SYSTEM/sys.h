@@ -4,6 +4,7 @@
 #include  <INTRINS.H>
 #include "reg52.h"
 #include "delay.h"
+#include "display.h"
 
 typedef unsigned char uchar;
 typedef unsigned int uint;

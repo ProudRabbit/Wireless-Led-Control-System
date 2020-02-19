@@ -311,7 +311,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\HARDWARE;..\SYSTEM</IncludePath>
+              <IncludePath>..\HARDWARE;..\SYSTEM;..\HARDWARE\DISPLAY</IncludePath>
             </VariousControls>
           </C51>
           <Ax51>
@@ -377,6 +377,13 @@
         </Group>
         <Group>
           <GroupName>HARDWARE</GroupName>
+          <Files>
+            <File>
+              <FileName>display.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\DISPLAY\display.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>SYS</GroupName>

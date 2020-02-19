@@ -1,0 +1,56 @@
+C51 COMPILER V9.56.0.0   DISPLAY                                                           02/19/2020 11:04:50 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE DISPLAY
+OBJECT MODULE PLACED IN ..\OBJ\display.obj
+COMPILER INVOKED BY: D:\Program_File\Keil_v5\C51\BIN\C51.EXE ..\HARDWARE\DISPLAY\display.c OPTIMIZE(8,SPEED) BROWSE INCD
+                    -IR(..\HARDWARE;..\SYSTEM;..\HARDWARE\DISPLAY) DEBUG OBJECTEXTEND PRINT(.\Listings\display.lst) OBJECT(..\OBJ\display.obj
+                    -)
+
+line level    source
+
+   1          #include "display.h"
+   2          
+   3          //--定义全局变量--//
+   4          unsigned char code DIG_PLACE[8] = {0xfe,0xfd,0xfb,0xf7,0xef,0xdf,0xbf,0x7f};//位选控制   查表的方法控制
+   5          unsigned char code DIG_CODE[17] = {0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,
+   6                                                                                  0x7f,0x6f,0x77,0x7c,0x39,0x5e,0x79,0x71};
+   7                                                                                  //0、1、2、3、4、5、6、7、8、9、A、b、C、d、E、F的显示码 共阴极接法
+   8          unsigned char DisplayData[8]={0};       //用来存放要显示的8位数的值
+   9          
+  10          /*******************************************************************************
+  11          * 函 数 名         : DigDisplay
+  12          * 函数功能                 : 使用数码管显示
+  13          * 输    入         : 无
+  14          * 输    出         : 无
+  15          *******************************************************************************/
+  16          
+  17          void DigDisplay()
+  18          {
+  19   1              unsigned char i;
+  20   1              unsigned int j;
+  21   1              
+  22   1              for(i=0; i<8; i++)
+  23   1              {
+  24   2                      DisplayData[i] = DIG_CODE[i];
+  25   2                      GPIO_PLACE = DIG_PLACE[i];       //发送位选
+  26   2                      GPIO_DIG = DisplayData[i];     //发送段码
+  27   2                      j = 10;                                          //扫描间隔时间设定
+  28   2                      while(j--);     
+  29   2                      GPIO_DIG = 0x00;//消隐
+  30   2              }
+  31   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     50    ----
+   CONSTANT SIZE    =     25    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

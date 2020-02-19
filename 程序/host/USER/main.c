@@ -4,6 +4,7 @@ void main()
 {
 	while(1)
 	{
-		delay_nms(10);
+		DigDisplay();
+		delay_nms(1);
 	}
 }

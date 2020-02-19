@@ -1,5 +1,6 @@
 "..\OBJ\STARTUP.obj",
 "..\OBJ\main.obj",
+"..\OBJ\display.obj",
 "..\OBJ\delay.obj" 
 TO "..\OBJ\Wireless_Led_Control_System" 
 PRINT(".\Listings\Wireless_Led_Control_System.m51") RAMSIZE(256) 
