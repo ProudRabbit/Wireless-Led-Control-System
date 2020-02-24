@@ -1,11 +1,11 @@
-C51 COMPILER V9.56.0.0   TIM                                                               02/24/2020 15:27:07 PAGE 1   
+C51 COMPILER V9.56.0.0   TIM                                                               02/24/2020 16:56:14 PAGE 1   
 
 
 C51 COMPILER V9.56.0.0, COMPILATION OF MODULE TIM
 OBJECT MODULE PLACED IN ..\OBJ\tim.obj
 COMPILER INVOKED BY: D:\Program_File\Keil_v5\C51\BIN\C51.EXE ..\HARDWARE\TIM\tim.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\HA
-                    -RDWARE;..\SYSTEM;..\HARDWARE\DISPLAY;..\HARDWARE\USART;..\HARDWARE\TIM) DEBUG OBJECTEXTEND PRINT(.\Listings\tim.lst) OBJ
-                    -ECT(..\OBJ\tim.obj)
+                    -RDWARE;..\SYSTEM;..\HARDWARE\DISPLAY;..\HARDWARE\USART;..\HARDWARE\TIM;..\HARDWARE\KEY) DEBUG OBJECTEXTEND PRINT(.\Listi
+                    -ngs\tim.lst) OBJECT(..\OBJ\tim.obj)
 
 line level    source
 

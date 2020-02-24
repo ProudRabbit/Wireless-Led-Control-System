@@ -1,11 +1,11 @@
-C51 COMPILER V9.56.0.0   DISPLAY                                                           02/24/2020 15:25:35 PAGE 1   
+C51 COMPILER V9.56.0.0   DISPLAY                                                           02/24/2020 16:56:14 PAGE 1   
 
 
 C51 COMPILER V9.56.0.0, COMPILATION OF MODULE DISPLAY
 OBJECT MODULE PLACED IN ..\OBJ\display.obj
 COMPILER INVOKED BY: D:\Program_File\Keil_v5\C51\BIN\C51.EXE ..\HARDWARE\DISPLAY\display.c OPTIMIZE(8,SPEED) BROWSE INCD
-                    -IR(..\HARDWARE;..\SYSTEM;..\HARDWARE\DISPLAY;..\HARDWARE\USART;..\HARDWARE\TIM) DEBUG OBJECTEXTEND PRINT(.\Listings\disp
-                    -lay.lst) OBJECT(..\OBJ\display.obj)
+                    -IR(..\HARDWARE;..\SYSTEM;..\HARDWARE\DISPLAY;..\HARDWARE\USART;..\HARDWARE\TIM;..\HARDWARE\KEY) DEBUG OBJECTEXTEND PRINT
+                    -(.\Listings\display.lst) OBJECT(..\OBJ\display.obj)
 
 line level    source
 

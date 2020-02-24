@@ -1,0 +1,51 @@
+C51 COMPILER V9.56.0.0   KEY                                                               02/24/2020 16:56:14 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE KEY
+OBJECT MODULE PLACED IN ..\OBJ\key.obj
+COMPILER INVOKED BY: D:\Program_File\Keil_v5\C51\BIN\C51.EXE ..\HARDWARE\KEY\key.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\HA
+                    -RDWARE;..\SYSTEM;..\HARDWARE\DISPLAY;..\HARDWARE\USART;..\HARDWARE\TIM;..\HARDWARE\KEY) DEBUG OBJECTEXTEND PRINT(.\Listi
+                    -ngs\key.lst) OBJECT(..\OBJ\key.obj)
+
+line level    source
+
+   1          #include "key.h"
+   2          
+   3          int key = 0;
+   4          
+   5          //mode == 1为支持连续按，0为不支持,
+   6          //返回值为键值,0为无按键按下
+   7          int KEY_Scan(int mode)          
+   8          {
+   9   1              static int KeyUp_flag = 1;
+  10   1              if(mode == 1)
+  11   1                      KeyUp_flag = 1;
+  12   1              
+  13   1              if((KeyUp_flag == 1)&&(KEY0 == 0||KEY1 ==0||KEY2 == 0||KEY3 == 0))
+  14   1              {
+  15   2                      delay_nms(10);  //消抖
+  16   2                      KeyUp_flag = 0;
+  17   2                      if(KEY0 == 0)return 1;
+  18   2                      else if(KEY1 == 0)return 2;
+  19   2                      else if(KEY2 == 0)return 3;
+  20   2                      else if(KEY3 == 0)return 4;
+  21   2              }
+  22   1              else if(KEY0 == 1&&KEY1 ==1&&KEY2 == 1&&KEY3 == 1)
+  23   1                      KeyUp_flag = 1;
+  24   1              return 0;       //无按键按下
+  25   1              
+  26   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     96    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

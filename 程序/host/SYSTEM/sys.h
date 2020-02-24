@@ -6,6 +6,8 @@
 #include "delay.h"
 #include "display.h"
 #include "usart.h"
+#include "tim.h"
+#include "key.h"
 
 typedef unsigned char uchar;
 typedef unsigned int uint;
