@@ -1,0 +1,47 @@
+C51 COMPILER V9.56.0.0   TIM                                                               02/24/2020 15:27:07 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE TIM
+OBJECT MODULE PLACED IN ..\OBJ\tim.obj
+COMPILER INVOKED BY: D:\Program_File\Keil_v5\C51\BIN\C51.EXE ..\HARDWARE\TIM\tim.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\HA
+                    -RDWARE;..\SYSTEM;..\HARDWARE\DISPLAY;..\HARDWARE\USART;..\HARDWARE\TIM) DEBUG OBJECTEXTEND PRINT(.\Listings\tim.lst) OBJ
+                    -ECT(..\OBJ\tim.obj)
+
+line level    source
+
+   1          #include "tim.h"
+   2          
+   3          
+   4          unsigned int t = 0;
+   5          
+   6          void TIM_Init()
+   7          {
+   8   1              TMOD |= 0X01;           //定时器0工作方式1
+   9   1              TH0 = (65536-50000)/256;                //定时50毫秒
+  10   1              TL0 = (65536-50000)%256;
+  11   1              ET0 = 1;                        //开定时器0中断
+  12   1              TR0 = 1;                        //启动定时器0
+  13   1      }
+  14          
+  15          
+  16          
+  17          void TIM_IRQHandler() interrupt 1
+  18          {
+  19   1              TH0 = (65536-50000)/256;
+  20   1              TL0 = (65536-50000)%256;
+  21   1              t++;
+  22   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     33    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

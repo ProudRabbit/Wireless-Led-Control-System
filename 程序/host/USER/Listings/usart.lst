@@ -1,11 +1,11 @@
-C51 COMPILER V9.56.0.0   USART                                                             02/24/2020 14:34:43 PAGE 1   
+C51 COMPILER V9.56.0.0   USART                                                             02/24/2020 15:25:35 PAGE 1   
 
 
 C51 COMPILER V9.56.0.0, COMPILATION OF MODULE USART
 OBJECT MODULE PLACED IN ..\OBJ\usart.obj
 COMPILER INVOKED BY: D:\Program_File\Keil_v5\C51\BIN\C51.EXE ..\HARDWARE\USART\usart.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.
-                    -.\HARDWARE;..\SYSTEM;..\HARDWARE\DISPLAY;..\HARDWARE\USART) DEBUG OBJECTEXTEND PRINT(.\Listings\usart.lst) OBJECT(..\OBJ
-                    -\usart.obj)
+                    -.\HARDWARE;..\SYSTEM;..\HARDWARE\DISPLAY;..\HARDWARE\USART;..\HARDWARE\TIM) DEBUG OBJECTEXTEND PRINT(.\Listings\usart.ls
+                    -t) OBJECT(..\OBJ\usart.obj)
 
 line level    source
 
@@ -17,7 +17,7 @@ line level    source
    6          
    7          void UART_Init() //初始化uart
    8          {  
-   9   1              TMOD=0X20;  //定时器1定时器方式 工作模式2
+   9   1              TMOD|=0X20;  //定时器1定时器方式 工作模式2
   10   1              SCON=0X51; //选择工作模式1使能接收，允许发送，允许接收  
   11   1              EA=1; //开总中断        
   12   1              ES=1;  //开串口中断
@@ -62,7 +62,7 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-C51 COMPILER V9.56.0.0   USART                                                             02/24/2020 14:34:43 PAGE 2   
+C51 COMPILER V9.56.0.0   USART                                                             02/24/2020 15:25:35 PAGE 2   
 
    CODE SIZE        =     88    ----
    CONSTANT SIZE    =   ----    ----
