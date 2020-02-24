@@ -1,9 +1,9 @@
-BL51 BANKED LINKER/LOCATER V6.22                                                        02/19/2020  11:11:47  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22                                                        02/24/2020  14:39:38  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
-D:\PROGRAM_FILE\KEIL_V5\C51\BIN\BL51.EXE ..\OBJ\STARTUP.obj, ..\OBJ\main.obj, ..\OBJ\delay.obj TO ..\OBJ\Wireless-Led-Co
->> ntrol-System PRINT (.\Listings\Wireless-Led-Control-System.m51) RAMSIZE (256)
+D:\PROGRAM_FILE\KEIL_V5\C51\BIN\BL51.EXE ..\OBJ\STARTUP.obj, ..\OBJ\main.obj, ..\OBJ\usart.obj, ..\OBJ\delay.obj TO ..\O
+>> BJ\Wireless-Led-Control-System PRINT (.\Listings\Wireless-Led-Control-System.m51) RAMSIZE (256)
 
 
 MEMORY MODEL: SMALL
@@ -12,7 +12,9 @@ MEMORY MODEL: SMALL
 INPUT MODULES INCLUDED:
   ..\OBJ\STARTUP.obj (?C_STARTUP)
   ..\OBJ\main.obj (MAIN)
+  ..\OBJ\usart.obj (USART)
   ..\OBJ\delay.obj (DELAY)
+  D:\PROGRAM_FILE\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
 
 
 LINK MAP OF MODULE:  ..\OBJ\Wireless-Led-Control-System (?C_STARTUP)
@@ -23,15 +25,22 @@ LINK MAP OF MODULE:  ..\OBJ\Wireless-Led-Control-System (?C_STARTUP)
 
             * * * * * * *   D A T A   M E M O R Y   * * * * * * *
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
-            IDATA   0008H     0001H     UNIT         ?STACK
+            DATA    0008H     0001H     UNIT         ?DT?USART
+            IDATA   0009H     0006H     UNIT         ?ID?USART
+            IDATA   000FH     0001H     UNIT         ?STACK
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
             CODE    0003H     0020H     UNIT         ?PR?_DELAY_NMS?DELAY
-            CODE    0023H     0011H     UNIT         ?PR?DELAY5US?DELAY
-            CODE    0034H     000FH     UNIT         ?PR?DELAY5MS?DELAY
-            CODE    0043H     000CH     UNIT         ?C_C51STARTUP
-            CODE    004FH     0002H     UNIT         ?PR?MAIN?MAIN
+            CODE    0023H     0003H     ABSOLUTE     
+            CODE    0026H     008CH     UNIT         ?C_C51STARTUP
+            CODE    00B2H     002EH     UNIT         ?PR?UART_IRQHANDLER?USART
+            CODE    00E0H     0018H     UNIT         ?PR?UART_INIT?USART
+            CODE    00F8H     0012H     UNIT         ?PR?_UART_PUTCH?USART
+            CODE    010AH     0011H     UNIT         ?PR?DELAY5US?DELAY
+            CODE    011BH     000FH     UNIT         ?PR?DELAY5MS?DELAY
+            CODE    012AH     000CH     UNIT         ?C_INITSEG
+            CODE    0136H     0002H     UNIT         ?PR?MAIN?MAIN
 
 
 
@@ -43,6 +52,15 @@ SEGMENT
 ---------------------
 ?C_C51STARTUP
   +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+*** NEW ROOT ***************************************************
+
+?PR?UART_IRQHANDLER?USART
+  +--> ?PR?_UART_PUTCH?USART
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      02/24/2020  14:39:38  PAGE 2
+
 
 
 
@@ -52,20 +70,17 @@ SYMBOL TABLE OF MODULE:  ..\OBJ\Wireless-Led-Control-System (?C_STARTUP)
   ----------------------------------
 
   -------         MODULE        ?C_STARTUP
-  C:0043H         SEGMENT       ?C_C51STARTUP
-  I:0008H         SEGMENT       ?STACK
+  C:0026H         SEGMENT       ?C_C51STARTUP
+  I:000FH         SEGMENT       ?STACK
   C:0000H         PUBLIC        ?C_STARTUP
   D:00E0H         SYMBOL        ACC
   D:00F0H         SYMBOL        B
   D:0083H         SYMBOL        DPH
   D:0082H         SYMBOL        DPL
-BL51 BANKED LINKER/LOCATER V6.22                                                      02/19/2020  11:11:47  PAGE 2
-
-
   N:0000H         SYMBOL        IBPSTACK
   N:0100H         SYMBOL        IBPSTACKTOP
   N:0080H         SYMBOL        IDATALEN
-  C:0046H         SYMBOL        IDATALOOP
+  C:0029H         SYMBOL        IDATALOOP
   N:0000H         SYMBOL        PBPSTACK
   N:0100H         SYMBOL        PBPSTACKTOP
   N:0000H         SYMBOL        PDATALEN
@@ -74,18 +89,18 @@ SYMBOL TABLE OF MODULE:  ..\OBJ\Wireless-Led-Control-System (?C_STARTUP)
   N:0000H         SYMBOL        PPAGEENABLE
   D:00A0H         SYMBOL        PPAGE_SFR
   D:0081H         SYMBOL        SP
-  C:0043H         SYMBOL        STARTUP1
+  C:0026H         SYMBOL        STARTUP1
   N:0000H         SYMBOL        XBPSTACK
   N:0000H         SYMBOL        XBPSTACKTOP
   N:0000H         SYMBOL        XDATALEN
   N:0000H         SYMBOL        XDATASTART
   C:0000H         LINE#         126
-  C:0043H         LINE#         133
-  C:0045H         LINE#         134
-  C:0046H         LINE#         135
-  C:0047H         LINE#         136
-  C:0049H         LINE#         185
-  C:004CH         LINE#         196
+  C:0026H         LINE#         133
+  C:0028H         LINE#         134
+  C:0029H         LINE#         135
+  C:002AH         LINE#         136
+  C:002CH         LINE#         185
+  C:002FH         LINE#         196
   -------         ENDMOD        ?C_STARTUP
 
   -------         MODULE        MAIN
@@ -94,34 +109,110 @@ SYMBOL TABLE OF MODULE:  ..\OBJ\Wireless-Led-Control-System (?C_STARTUP)
   D:00B0H         PUBLIC        P3
   D:00A8H         PUBLIC        IE
   D:00B8H         PUBLIC        IP
-  C:004FH         PUBLIC        main
+  C:0136H         PUBLIC        main
   D:0098H         PUBLIC        SCON
   D:0088H         PUBLIC        TCON
   D:00C8H         PUBLIC        T2CON
   D:00D0H         PUBLIC        PSW
   -------         PROC          MAIN
-  C:004FH         LINE#         3
-  C:004FH         LINE#         4
-  C:004FH         LINE#         5
-  C:004FH         LINE#         6
-  C:004FH         LINE#         8
+  C:0136H         LINE#         3
+  C:0136H         LINE#         4
+  C:0136H         LINE#         5
+  C:0136H         LINE#         6
+BL51 BANKED LINKER/LOCATER V6.22                                                      02/24/2020  14:39:38  PAGE 3
+
+
+  C:0136H         LINE#         8
   -------         ENDPROC       MAIN
   -------         ENDMOD        MAIN
+
+  -------         MODULE        USART
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  B:00A8H.7       PUBLIC        EA
+  D:0008H         PUBLIC        R_X
+  D:00A8H         PUBLIC        IE
+  B:00A8H.4       PUBLIC        ES
+  D:00B8H         PUBLIC        IP
+  B:0098H.0       PUBLIC        RI
+  B:0098H.1       PUBLIC        TI
+  C:00F8H         PUBLIC        _UART_Putch
+  D:0099H         PUBLIC        SBUF
+  D:0087H         PUBLIC        PCON
+  C:00E0H         PUBLIC        UART_Init
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  B:00A8H.3       PUBLIC        ET1
+  D:008DH         PUBLIC        TH1
+  C:00B2H         PUBLIC        UART_IRQHandler
+  D:008BH         PUBLIC        TL1
+  B:0088H.6       PUBLIC        TR1
+  I:0009H         PUBLIC        str
+  D:00C8H         PUBLIC        T2CON
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          UART_INIT
+  C:00E0H         LINE#         7
+  C:00E0H         LINE#         8
+  C:00E0H         LINE#         9
+  C:00E3H         LINE#         10
+  C:00E6H         LINE#         11
+  C:00E8H         LINE#         12
+  C:00EAH         LINE#         13
+  C:00ECH         LINE#         14
+  C:00EFH         LINE#         15
+  C:00F2H         LINE#         16
+  C:00F5H         LINE#         17
+  C:00F7H         LINE#         18
+  -------         ENDPROC       UART_INIT
+  -------         PROC          _UART_PUTCH
+  D:0007H         SYMBOL        dat
+  -------         DO            
+  D:0006H         SYMBOL        i
+  -------         ENDDO         
+  C:00F8H         LINE#         22
+  C:00F8H         LINE#         23
+  C:00F8H         LINE#         25
+  C:00FAH         LINE#         26
+  C:00FAH         LINE#         27
+  C:0100H         LINE#         28
+  C:0103H         LINE#         29
+  C:0105H         LINE#         30
+BL51 BANKED LINKER/LOCATER V6.22                                                      02/24/2020  14:39:38  PAGE 4
+
+
+  C:0109H         LINE#         31
+  -------         ENDPROC       _UART_PUTCH
+  -------         PROC          UART_IRQHANDLER
+  C:00B2H         LINE#         34
+  C:00BFH         LINE#         37
+  C:00C2H         LINE#         38
+  C:00C2H         LINE#         39
+  C:00C5H         LINE#         40
+  C:00CAH         LINE#         41
+  C:00CAH         LINE#         42
+  C:00CFH         LINE#         43
+  C:00D1H         LINE#         44
+  C:00D3H         LINE#         46
+  C:00D3H         LINE#         47
+  C:00D5H         LINE#         48
+  C:00D5H         LINE#         49
+  C:00D5H         LINE#         50
+  -------         ENDPROC       UART_IRQHANDLER
+  -------         ENDMOD        USART
 
   -------         MODULE        DELAY
   C:0000H         SYMBOL        _ICE_DUMMY_
   D:0090H         PUBLIC        P1
   D:00B0H         PUBLIC        P3
-  C:0034H         PUBLIC        Delay5ms
+  C:011BH         PUBLIC        Delay5ms
   D:00A8H         PUBLIC        IE
-  C:0023H         PUBLIC        Delay5us
+  C:010AH         PUBLIC        Delay5us
   D:00B8H         PUBLIC        IP
   D:0098H         PUBLIC        SCON
   D:0088H         PUBLIC        TCON
   C:0003H         PUBLIC        _delay_nms
-BL51 BANKED LINKER/LOCATER V6.22                                                      02/19/2020  11:11:47  PAGE 3
-
-
   D:00C8H         PUBLIC        T2CON
   D:00D0H         PUBLIC        PSW
   -------         PROC          _DELAY_NMS
@@ -140,25 +231,31 @@ SYMBOL TABLE OF MODULE:  ..\OBJ\Wireless-Led-Control-System (?C_STARTUP)
   C:0022H         LINE#         16
   -------         ENDPROC       _DELAY_NMS
   -------         PROC          DELAY5US
-  C:0023H         LINE#         23
-  C:0023H         LINE#         24
-  C:0023H         LINE#         25
-  C:0027H         LINE#         26
-  C:002BH         LINE#         27
-  C:002FH         LINE#         28
-  C:0033H         LINE#         29
+  C:010AH         LINE#         23
+  C:010AH         LINE#         24
+  C:010AH         LINE#         25
+  C:010EH         LINE#         26
+  C:0112H         LINE#         27
+  C:0116H         LINE#         28
+  C:011AH         LINE#         29
   -------         ENDPROC       DELAY5US
+BL51 BANKED LINKER/LOCATER V6.22                                                      02/24/2020  14:39:38  PAGE 5
+
+
   -------         PROC          DELAY5MS
   -------         DO            
   D:0006H         SYMBOL        n
   -------         ENDDO         
-  C:0034H         LINE#         36
-  C:0034H         LINE#         37
-  C:0034H         LINE#         38
-  C:0038H         LINE#         40
-  C:0042H         LINE#         41
+  C:011BH         LINE#         36
+  C:011BH         LINE#         37
+  C:011BH         LINE#         38
+  C:011FH         LINE#         40
+  C:0129H         LINE#         41
   -------         ENDPROC       DELAY5MS
   -------         ENDMOD        DELAY
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?UART_INIT?USART
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_DELAY_NMS?DELAY
@@ -169,5 +266,5 @@ SYMBOL TABLE OF MODULE:  ..\OBJ\Wireless-Led-Control-System (?C_STARTUP)
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?DELAY5MS?DELAY
 
-Program Size: data=9.0 xdata=0 code=81
-LINK/LOCATE RUN COMPLETE.  3 WARNING(S),  0 ERROR(S)
+Program Size: data=16.0 xdata=0 code=312
+LINK/LOCATE RUN COMPLETE.  4 WARNING(S),  0 ERROR(S)

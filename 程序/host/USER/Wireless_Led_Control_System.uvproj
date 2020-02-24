@@ -311,7 +311,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\HARDWARE;..\SYSTEM;..\HARDWARE\DISPLAY</IncludePath>
+              <IncludePath>..\HARDWARE;..\SYSTEM;..\HARDWARE\DISPLAY;..\HARDWARE\USART</IncludePath>
             </VariousControls>
           </C51>
           <Ax51>
@@ -382,6 +382,11 @@
               <FileName>display.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\DISPLAY\display.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\USART\usart.c</FilePath>
             </File>
           </Files>
         </Group>

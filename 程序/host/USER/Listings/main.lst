@@ -1,23 +1,24 @@
-C51 COMPILER V9.56.0.0   MAIN                                                              02/19/2020 10:58:43 PAGE 1   
+C51 COMPILER V9.56.0.0   MAIN                                                              02/24/2020 14:34:20 PAGE 1   
 
 
 C51 COMPILER V9.56.0.0, COMPILATION OF MODULE MAIN
 OBJECT MODULE PLACED IN ..\OBJ\main.obj
 COMPILER INVOKED BY: D:\Program_File\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\HARDWARE;..\SYSTE
-                    -M;..\HARDWARE\DISPLAY) DEBUG OBJECTEXTEND PRINT(.\Listings\main.lst) OBJECT(..\OBJ\main.obj)
+                    -M;..\HARDWARE\DISPLAY;..\HARDWARE\USART) DEBUG OBJECTEXTEND PRINT(.\Listings\main.lst) OBJECT(..\OBJ\main.obj)
 
 line level    source
 
    1          #include "sys.h"
    2          
-   3          void main()
-   4          {
-   5   1              while(1)
-   6   1              {
-   7   2                      DigDisplay();
-   8   2                      delay_nms(1);
-   9   2              }
-  10   1      }
+   3          
+   4          void main()
+   5          {
+   6   1              while(1)
+   7   1              {
+   8   2                      DigDisplay();
+   9   2                      delay_nms(1);
+  10   2              }
+  11   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE

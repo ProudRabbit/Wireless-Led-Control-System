@@ -1,10 +1,10 @@
-C51 COMPILER V9.56.0.0   MAIN                                                              02/19/2020 11:11:47 PAGE 1   
+C51 COMPILER V9.56.0.0   MAIN                                                              02/24/2020 14:39:38 PAGE 1   
 
 
 C51 COMPILER V9.56.0.0, COMPILATION OF MODULE MAIN
 OBJECT MODULE PLACED IN ..\OBJ\main.obj
 COMPILER INVOKED BY: D:\Program_File\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\HARDWARE;..\SYSTE
-                    -M) DEBUG OBJECTEXTEND PRINT(.\Listings\main.lst) OBJECT(..\OBJ\main.obj)
+                    -M;..\HARDWARE\USART) DEBUG OBJECTEXTEND PRINT(.\Listings\main.lst) OBJECT(..\OBJ\main.obj)
 
 line level    source
 
