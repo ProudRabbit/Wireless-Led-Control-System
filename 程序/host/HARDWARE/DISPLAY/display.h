@@ -3,14 +3,14 @@
 
 #include "sys.h"
 
-//--¶¨ÒåÊ¹ÓÃµÄIO¿Ú--//
-#define GPIO_DIG   P0	//¶ÎÑ¡
-#define GPIO_PLACE P1	//Î»Ñ¡
+//--å®šä¹‰æ•°ç ç®¡è¾“å‡ºä½¿ç”¨çš„IOå£--//
+#define GPIO_DIG   P0		//æ®µé€‰
+#define GPIO_PLACE P1		//ä½é€‰
 
-extern unsigned char code DIG_PLACE[8];	//Ñ¡¿ØÖÆ   ²é±íµÄ·½·¨¿ØÖÆ
-extern unsigned char code DIG_CODE[17];	//´æ·ÅÏÔÊ¾Âë ¹²Òõ¼«½Ó·¨
-extern unsigned char DisplayData[8];	//ÓÃÀ´´æ·ÅÒªÏÔÊ¾µÄ8Î»ÊıµÄÖµ
+extern unsigned char code DIG_PLACE[8];		//ä½é€‰æ§åˆ¶   æŸ¥è¡¨çš„æ–¹æ³•æ§åˆ¶
+extern unsigned char code DIG_CODE[17];		//å­˜æ”¾æ˜¾ç¤ºç  å…±é˜´ææ¥æ³•
+extern unsigned char DisplayData[8];		//ç”¨æ¥å­˜æ”¾è¦æ˜¾ç¤ºçš„8ä½æ•°çš„å€¼Öµ
 
-extern void DigDisplay(); //¶¯Ì¬ÏÔÊ¾º¯Êı
+extern void DigDisplay(int m); 				//åŠ¨æ€æ˜¾ç¤ºå‡½æ•°
 
 #endif

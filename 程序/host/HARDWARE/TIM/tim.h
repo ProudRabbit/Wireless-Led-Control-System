@@ -3,9 +3,10 @@
 
 #include "sys.h"
 
-extern unsigned int t;		//¶¨Ê±ÖĞ¶Ï¼ÆÊı
-
-extern void TIM_Init();		//¶¨Ê±Æ÷0³õÊ¼»¯
+extern unsigned int t;			//å®šæ—¶ä¸­æ–­è®¡æ•°
+extern uint flag_1s;			//å®šæ—¶1ç§’æ ‡å¿—ä½
+extern int time;				//30ç§’å€’è®¡æ—¶
+extern void TIM_Init();			//å®šæ—¶å™¨0åˆå§‹åŒ–
 
 
 

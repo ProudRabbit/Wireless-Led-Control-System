@@ -1,49 +1,54 @@
-C51 COMPILER V9.56.0.0   DISPLAY                                                           02/24/2020 16:56:14 PAGE 1   
+C51 COMPILER V9.56.0.0   DISPLAY                                                           03/23/2020 16:33:47 PAGE 1   
 
 
 C51 COMPILER V9.56.0.0, COMPILATION OF MODULE DISPLAY
 OBJECT MODULE PLACED IN ..\OBJ\display.obj
 COMPILER INVOKED BY: D:\Program_File\Keil_v5\C51\BIN\C51.EXE ..\HARDWARE\DISPLAY\display.c OPTIMIZE(8,SPEED) BROWSE INCD
-                    -IR(..\HARDWARE;..\SYSTEM;..\HARDWARE\DISPLAY;..\HARDWARE\USART;..\HARDWARE\TIM;..\HARDWARE\KEY) DEBUG OBJECTEXTEND PRINT
-                    -(.\Listings\display.lst) OBJECT(..\OBJ\display.obj)
+                    -IR(..\HARDWARE;..\SYSTEM;..\HARDWARE\DISPLAY;..\HARDWARE\USART;..\HARDWARE\TIM;..\HARDWARE\KEY;..\HARDWARE\EEPROM) DEBUG
+                    - OBJECTEXTEND PRINT(.\Listings\display.lst) OBJECT(..\OBJ\display.obj)
 
 line level    source
 
    1          #include "display.h"
    2          
-   3          //--¶¨ÒåÈ«¾Ö±äÁ¿--//
-   4          unsigned char code DIG_PLACE[8] = {0xfe,0xfd,0xfb,0xf7,0xef,0xdf,0xbf,0x7f};//Î»Ñ¡¿ØÖÆ   ²é±íµÄ·½·¨¿ØÖÆ
-   5          unsigned char code DIG_CODE[17] = {0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,
-   6                                                                                  0x7f,0x6f,0x77,0x7c,0x39,0x5e,0x79,0x71};
-   7                                                                                  //0¡¢1¡¢2¡¢3¡¢4¡¢5¡¢6¡¢7¡¢8¡¢9¡¢A¡¢b¡¢C¡¢d¡¢E¡¢FµÄÏÔÊ¾Âë ¹²Òõ¼«½Ó·¨
-   8          unsigned char DisplayData[8]={0};       //ÓÃÀ´´æ·ÅÒªÏÔÊ¾µÄ8Î»ÊýµÄÖµ
-   9          
-  10          /*******************************************************************************
-  11          * º¯ Êý Ãû         : DigDisplay
-  12          * º¯Êý¹¦ÄÜ                 : Ê¹ÓÃÊýÂë¹ÜÏÔÊ¾
-  13          * Êä    Èë         : ÎÞ
-  14          * Êä    ³ö         : ÎÞ
-  15          *******************************************************************************/
-  16          
-  17          void DigDisplay()
-  18          {
-  19   1              unsigned char i;
-  20   1              unsigned int j;
-  21   1              
-  22   1              for(i=0; i<8; i++)
-  23   1              {
-  24   2                      DisplayData[i] = DIG_CODE[i];
-  25   2                      GPIO_PLACE = DIG_PLACE[i];       //·¢ËÍÎ»Ñ¡
-  26   2                      GPIO_DIG = DisplayData[i];     //·¢ËÍ¶ÎÂë
-  27   2                      j = 10;                                          //É¨Ãè¼ä¸ôÊ±¼äÉè¶¨
-  28   2                      while(j--);     
-  29   2                      GPIO_DIG = 0x00;//ÏûÒþ
-  30   2              }
-  31   1      }
+   3          
+   4          unsigned char code DIG_PLACE[8] = {0xfe,0xfd,0xfb,0xf7,0xef,0xdf,0xbf,0x7f};    //ä½é€‰æŽ§åˆ¶
+   5          
+   6          unsigned char code DIG_CODE[17] = {0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,
+   7                                                                                  0x7f,0x6f,0x77,0x7c,0x39,0x5e,0x79,0x71};
+   8                                                                                  //0 1 2 3 4 5 6 7 8 9 A B C D E F çš„æ®µç  å…±é˜´æžæŽ¥æ³•
+   9                                                                                  
+  10          unsigned char DisplayData[8]={0};       //å­˜æ”¾è¦æ˜¾ç¤ºçš„æ®µç 
+  11          
+  12          /*******************************************************************************
+  13          * å‡½æ•°å         : DigDisplay
+  14          * åŠŸèƒ½                         : æ•°ç ç®¡åŠ¨æ€æ˜¾ç¤º
+  15          * è¾“å…¥                         ï¼šæ—¶é—´0 - 60ç§’
+  16          * è¾“å‡º                         : æ— 
+  17          *******************************************************************************/
+  18          
+  19          void DigDisplay(int m)
+  20          {
+  21   1              unsigned char i;
+  22   1              unsigned int j;
+  23   1      
+  24   1              DisplayData[7] = DIG_CODE[m%10];                //å¾—åˆ°ä¸ªä½æ®µç 
+  25   1              DisplayData[6] = DIG_CODE[m/10];                //å¾—åˆ°åä½æ®µç 
+  26   1      
+  27   1              for(i=0; i<8; i++)
+  28   1              {
+  29   2                      
+  30   2                      GPIO_PLACE = DIG_PLACE[i];              //è¾“å‡ºä½é€‰
+  31   2                      GPIO_DIG = DisplayData[i];      //è¾“å‡ºæ®µç 
+  32   2                      j = 10;                                                 //æ‰«æé—´éš”æ—¶é—´
+  33   2                      while(j--);     
+  34   2                      GPIO_DIG = 0x00;                        //æ¶ˆéš
+  35   2              }
+  36   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     50    ----
+   CODE SIZE        =     88    ----
    CONSTANT SIZE    =     25    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

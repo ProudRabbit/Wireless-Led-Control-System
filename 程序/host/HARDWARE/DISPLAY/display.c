@@ -1,31 +1,36 @@
 #include "display.h"
 
-//--¶¨ÒåÈ«¾Ö±äÁ¿--//
-unsigned char code DIG_PLACE[8] = {0xfe,0xfd,0xfb,0xf7,0xef,0xdf,0xbf,0x7f};//Î»Ñ¡¿ØÖÆ   ²é±íµÄ·½·¨¿ØÖÆ
+
+unsigned char code DIG_PLACE[8] = {0xfe,0xfd,0xfb,0xf7,0xef,0xdf,0xbf,0x7f};	//ä½é€‰æ§åˆ¶
+
 unsigned char code DIG_CODE[17] = {0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,
 									0x7f,0x6f,0x77,0x7c,0x39,0x5e,0x79,0x71};
-									//0¡¢1¡¢2¡¢3¡¢4¡¢5¡¢6¡¢7¡¢8¡¢9¡¢A¡¢b¡¢C¡¢d¡¢E¡¢FµÄÏÔÊ¾Âë ¹²Òõ¼«½Ó·¨
-unsigned char DisplayData[8]={0};	//ÓÃÀ´´æ·ÅÒªÏÔÊ¾µÄ8Î»ÊıµÄÖµ
+									//0 1 2 3 4 5 6 7 8 9 A B C D E F çš„æ®µç  å…±é˜´ææ¥æ³•
+									
+unsigned char DisplayData[8]={0};	//å­˜æ”¾è¦æ˜¾ç¤ºçš„æ®µç 
 
 /*******************************************************************************
-* º¯ Êı Ãû         : DigDisplay
-* º¯Êı¹¦ÄÜ		   : Ê¹ÓÃÊıÂë¹ÜÏÔÊ¾
-* Êä    Èë         : ÎŞ
-* Êä    ³ö         : ÎŞ
+* å‡½æ•°å         : DigDisplay
+* åŠŸèƒ½		  	 : æ•°ç ç®¡åŠ¨æ€æ˜¾ç¤º
+* è¾“å…¥			 ï¼šæ—¶é—´0 - 60ç§’
+* è¾“å‡º			 : æ— 
 *******************************************************************************/
 
-void DigDisplay()
+void DigDisplay(int m)
 {
 	unsigned char i;
 	unsigned int j;
-	
+
+	DisplayData[7] = DIG_CODE[m%10];		//å¾—åˆ°ä¸ªä½æ®µç 
+	DisplayData[6] = DIG_CODE[m/10];		//å¾—åˆ°åä½æ®µç 
+
 	for(i=0; i<8; i++)
 	{
-		DisplayData[i] = DIG_CODE[i];
-		GPIO_PLACE = DIG_PLACE[i];	 //·¢ËÍÎ»Ñ¡
-		GPIO_DIG = DisplayData[i];     //·¢ËÍ¶ÎÂë
-		j = 10;						 //É¨Ãè¼ä¸ôÊ±¼äÉè¶¨
+		
+		GPIO_PLACE = DIG_PLACE[i];	 	//è¾“å‡ºä½é€‰
+		GPIO_DIG = DisplayData[i];     	//è¾“å‡ºæ®µç 
+		j = 10;						 	//æ‰«æé—´éš”æ—¶é—´
 		while(j--);	
-		GPIO_DIG = 0x00;//ÏûÒş
+		GPIO_DIG = 0x00;			//æ¶ˆéš
 	}
 }

@@ -4,17 +4,17 @@
 #include "key.h"
 #include "sys.h"
 
-//¶¨Òå°´¼ü¶Ë¿Ú
-sbit KEY0 = P1^0;
-sbit KEY1 = P1^1;
-sbit KEY2 = P1^2;
-sbit KEY3 = P1^3;
+//---å®šä¹‰æŒ‰é”®ç«¯å£---//
+sbit KEY0 = P2^0;
+sbit KEY1 = P2^1;
+sbit KEY2 = P2^2;
+sbit KEY3 = P2^3;
 
 
-extern int key;	//´æ·Å¼üÖµ
+extern int key;	//å­˜æ”¾é”®å€¼
 
-//mode == 1ÎªÖ§³ÖÁ¬Ğø°´£¬0Îª²»Ö§³Ö,
-//·µ»ØÖµÎª¼üÖµ,0ÎªÎŞ°´¼ü°´ÏÂ
+//mode == 1ä¸ºæ”¯æŒè¿ç»­æŒ‰ï¼Œ0ä¸ºä¸æ”¯æŒ,
+//è¿”å›å€¼ä¸ºé”®å€¼,0ä¸ºæ— æŒ‰é”®æŒ‰ä¸‹
 extern int KEY_Scan(int mode);	
 
 

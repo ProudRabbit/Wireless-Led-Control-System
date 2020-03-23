@@ -311,7 +311,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\HARDWARE;..\SYSTEM;..\HARDWARE\USART</IncludePath>
+              <IncludePath>..\HARDWARE;..\SYSTEM;..\HARDWARE\USART;..\HARDWARE\LED</IncludePath>
             </VariousControls>
           </C51>
           <Ax51>
@@ -382,6 +382,11 @@
               <FileName>usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\USART\usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\LED\led.c</FilePath>
             </File>
           </Files>
         </Group>

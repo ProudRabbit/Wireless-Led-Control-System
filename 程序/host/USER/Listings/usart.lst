@@ -1,11 +1,11 @@
-C51 COMPILER V9.56.0.0   USART                                                             02/24/2020 16:56:14 PAGE 1   
+C51 COMPILER V9.56.0.0   USART                                                             03/23/2020 16:27:30 PAGE 1   
 
 
 C51 COMPILER V9.56.0.0, COMPILATION OF MODULE USART
 OBJECT MODULE PLACED IN ..\OBJ\usart.obj
 COMPILER INVOKED BY: D:\Program_File\Keil_v5\C51\BIN\C51.EXE ..\HARDWARE\USART\usart.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.
-                    -.\HARDWARE;..\SYSTEM;..\HARDWARE\DISPLAY;..\HARDWARE\USART;..\HARDWARE\TIM;..\HARDWARE\KEY) DEBUG OBJECTEXTEND PRINT(.\L
-                    -istings\usart.lst) OBJECT(..\OBJ\usart.obj)
+                    -.\HARDWARE;..\SYSTEM;..\HARDWARE\DISPLAY;..\HARDWARE\USART;..\HARDWARE\TIM;..\HARDWARE\KEY;..\HARDWARE\EEPROM) DEBUG OBJ
+                    -ECTEXTEND PRINT(.\Listings\usart.lst) OBJECT(..\OBJ\usart.obj)
 
 line level    source
 
@@ -14,56 +14,71 @@ line level    source
    3          unsigned char R_X = 0; 
    4          unsigned char idata str[6] = {0x39,0x00,0x00,0x00,0x00,0x39};
    5          
-   6          
-   7          void UART_Init() //³õÊ¼»¯uart
-   8          {  
-   9   1              TMOD|=0X20;  //¶¨Ê±Æ÷1¶¨Ê±Æ÷·½Ê½ ¹¤×÷Ä£Ê½2
-  10   1              SCON=0X51; //Ñ¡Ôñ¹¤×÷Ä£Ê½1Ê¹ÄÜ½ÓÊÕ£¬ÔÊÐí·¢ËÍ£¬ÔÊÐí½ÓÊÕ  
-  11   1              EA=1; //¿ª×ÜÖÐ¶Ï        
-  12   1              ES=1;  //¿ª´®¿ÚÖÐ¶Ï
-  13   1              ET1=0;  //¿ª¶¨Ê±Æ÷ÖÐ¶Ï  
-  14   1              PCON=0X80; //8Î»×Ô¶¯ÖØÔØ£¬²¨ÌØÂÊ¼Ó±¶    
-  15   1              TH1=0XFA;  //ÓÃ22.1184 mhz²¨ÌØÂÊ
-  16   1              TL1=0XFA; 
-  17   1              TR1=1; //´ò¿ª¶¨Ê±Æ÷1
-  18   1      }
-  19          
-  20          
-  21          
-  22          void UART_Putch(uchar idata *dat)  //Êä³öÒ»¸ö×Ö½Ú
-  23          {
-  24   1         uchar i;
-  25   1         for(i=0 ;i<6;i++)    
-  26   1         {
-  27   2                              SBUF=dat[i]; //°ÑÊý¾ÝËÍµ½sbuf»º³åÆ÷ÖÐ                                     
-  28   2                              while(TI!=1);   //·¢ËÍ±êÖ¾Î»T1Èç¹û·¢ËÍÁËÎª1£¬Ã»·¢ËÍÎª0£¬Ã»·¢ËÍµÈ´ý£¬µ½ÁËÍË³öÑ­»·
-  29   2                              TI=0;  //µ½ÁËT1ÇåÁã
-  30   2              }
-  31   1      }
-  32          
-  33          
-  34          void UART_IRQHandler() interrupt 4  //uartÖÐ¶Ï ,4Îª´®¿ÚÖÐ¶Ï
-  35          {
-  36   1       
-  37   1                if(RI==1)  //ÊÕµ½Êý¾Ý
-  38   1                {
-  39   2                              R_X=SBUF;
-  40   2                              if(R_X==0x23)
-  41   2                              {  
-  42   3                                      UART_Putch(str);
-  43   3                                      RI=0;
-  44   3                              }
-  45   2                              else
-  46   2                              {
-  47   3                                      RI=0;
-  48   3                              }
-  49   2                }
-  50   1      }
+   6          /*******************************************************************************
+   7          * å‡½æ•°å         : UART_Init
+   8          * åŠŸèƒ½                         : åˆå§‹åŒ–ä¸²å£
+   9          * è¾“å…¥                         ï¼šæ— 
+  10          * è¾“å‡º                         : æ— 
+  11          *******************************************************************************/
+  12          void UART_Init() 
+  13          {  
+  14   1              TMOD|=0X20;     //å®šæ—¶å™¨1å®šæ—¶å™¨æ–¹å¼ å·¥ä½œæ¨¡å¼2
+  15   1              SCON=0X51;              //é€‰æ‹©å·¥ä½œæ¨¡å¼1ä½¿èƒ½æŽ¥æ”¶ï¼Œå…è®¸å‘é€ï¼Œå…è®¸æŽ¥æ”¶ 
+  16   1              EA=1;                   //å¼€æ€»ä¸­æ–­  
+  17   1              ES=1;                   //å¼€ä¸²å£ä¸­æ–­
+  18   1              ET1=0;                  //å¼€å®šæ—¶å™¨ä¸­æ–­    
+  19   1              PCON=0X80;              //8ä½è‡ªåŠ¨é‡è½½ï¼Œæ³¢ç‰¹çŽ‡åŠ å€    
+  20   1              TH1=0XFA;               //æ³¢ç‰¹çŽ‡9600
+  21   1              TL1=0XFA; 
+  22   1              TR1=1;                  //æ‰“å¼€å®šæ—¶å™¨1
+  23   1      }
+  24          
+  25          
+  26          /*******************************************************************************
+  27          * å‡½æ•°å         : UART_Putch
+  28          * åŠŸèƒ½                         : å‘é€ä¸€å¸§æ•°æ®
+  29          * è¾“å…¥                         ï¼šæ•°ç»„åœ°å€
+  30          * è¾“å‡º                         : æ— 
+  31          *******************************************************************************/
+  32          void UART_Putch(uchar idata *dat)  
+  33          {
+  34   1         uchar i;
+  35   1         for(i=0 ;i<6;i++)    
+  36   1         {
+  37   2                              SBUF=dat[i];            //æŠŠæ•°æ®é€åˆ°sbufç¼“å†²å™¨ä¸­                                         
+  38   2                              while(TI!=1);           //ç­‰å¾…å‘é€å®Œæˆ
+  39   2                              TI=0;                           //T1æ¸…é›¶
+  40   2              }
+  41   1      }
+  42          
+  43          /*******************************************************************************
+  44          * å‡½æ•°å         : UART_IRQHandler
+  45          * åŠŸèƒ½                         : ä¸²å£ä¸­æ–­æœåŠ¡å‡½æ•°ï¼ŒæŽ¥æ”¶ä¸€å¸§æ•°æ®
+  46          * è¾“å…¥                         : æ— 
+  47          * è¾“å‡º                         : æ— 
+  48          *******************************************************************************/
+  49          void UART_IRQHandler() interrupt 4 
+  50          {
+  51   1       
+  52   1                if(RI==1)                     //æ”¶åˆ°æ•°æ®
+  53   1                {
+C51 COMPILER V9.56.0.0   USART                                                             03/23/2020 16:27:30 PAGE 2   
+
+  54   2                              R_X=SBUF;
+  55   2                              if(R_X==0x23)
+  56   2                              {  
+  57   3                                      UART_Putch(str);
+  58   3                                      RI=0;
+  59   3                              }
+  60   2                              else
+  61   2                              {
+  62   3                                      RI=0;
+  63   3                              }
+  64   2                }
+  65   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-C51 COMPILER V9.56.0.0   USART                                                             02/24/2020 16:56:14 PAGE 2   
-
    CODE SIZE        =     88    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----

@@ -1,16 +1,45 @@
 #include "sys.h"
+#include "delay.h"
+#include "display.h"
+#include "usart.h"
+#include "tim.h"
+#include "key.h"
+#include "eeprom.h"
+
+uint i = 0;
 
 
 void main()
 {
-	UART_Init();	//³õÊ¼»¯´®¿Ú
-	TIM_Init();		//³õÊ¼»¯¶¨Ê±Æ÷
+	UART_Init();	//åˆå§‹åŒ–ä¸²å£
+	TIM_Init();		//åˆå§‹åŒ–å®šæ—¶å™¨
+
+    //IapEraseSector(IAP_ADDRESS);    //Erase current sector
+
+	//Delay5ms();
+	
+	//IapProgramByte(IAP_ADDRESS,(BYTE)6);
+	//Delay5ms();
 	
 	while(1)
 	{
-		DigDisplay();		//ÏÔÊ¾Ê±¼ä
-		key = KEY_Scan(1);	//Ö§³ÖÁ¬Ğø°´
-		UART_Putch(str);	//·¢ËÍÒ»¸ö×Ö½Ú
+		if(flag_1s == 1)
+		{
+			if(time == 0)
+				time = 30;
+			time--;
+		}
+		
+		DigDisplay(30);
+		
+		key = KEY_Scan(0);	//ä¸æ”¯æŒè¿ç»­æŒ‰ 0ä¸æ”¯æŒ 1æ”¯æŒ
+		if(key == 1)
+			i = IapReadByte(IAP_ADDRESS);	//è¯»å–ä¸€ä¸ªå­—èŠ‚
+		else if(key == 2)
+		{
+			str[1] = i;
+			UART_Putch(str);
+		}
 		Delay5ms();
 	}
 }
