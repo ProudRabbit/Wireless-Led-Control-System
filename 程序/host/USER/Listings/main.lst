@@ -1,4 +1,4 @@
-C51 COMPILER V9.56.0.0   MAIN                                                              03/23/2020 16:50:09 PAGE 1   
+C51 COMPILER V9.56.0.0   MAIN                                                              03/24/2020 16:36:07 PAGE 1   
 
 
 C51 COMPILER V9.56.0.0, COMPILATION OF MODULE MAIN
@@ -17,53 +17,79 @@ line level    source
    6          #include "key.h"
    7          #include "eeprom.h"
    8          
-   9          uint i = 0;
-  10          
-  11          
-  12          void main()
-  13          {
-  14   1              UART_Init();    //初始化串口
-  15   1              TIM_Init();             //初始化定时器
-  16   1      
-  17   1          //IapEraseSector(IAP_ADDRESS);    //Erase current sector
-  18   1      
-  19   1              //Delay5ms();
-  20   1              
-  21   1              //IapProgramByte(IAP_ADDRESS,(BYTE)6);
-  22   1              //Delay5ms();
-  23   1              
-  24   1              while(1)
-  25   1              {
-  26   2                      if(flag_1s == 1)
-  27   2                      {
-  28   3                              if(time == 0)
-  29   3                                      time = 30;
-  30   3                              time--;
-  31   3                      }
-  32   2                      
-  33   2                      DigDisplay(30);
-  34   2                      
-  35   2                      key = KEY_Scan(0);      //不支持连续按 0不支持 1支持
-  36   2                      if(key == 1)
-  37   2                              i = IapReadByte(IAP_ADDRESS);   //读取一个字节
-  38   2                      else if(key == 2)
-  39   2                      {
-  40   3                              str[1] = i;
-  41   3                              UART_Putch(str);
-  42   3                      }
-  43   2                      Delay5ms();
-  44   2              }
-  45   1      }
+   9          #define ODD_LED_LIGHT   0X01    //奇数点亮 使用str[2]
+  10          #define EVEN_LED_LIGHT  0X02    //偶数点亮 使用str[2]
+  11          #define ALL_LED_LIGHT   0X01    //全点亮使能命令 放在str[1]中
+  12          
+  13          void main()
+  14          {
+  15   1              UART_Init();    //初始化串口
+  16   1              TIM_Init();             //初始化定时器
+  17   1      
+  18   1          //IapEraseSector(IAP_ADDRESS);    //Erase current sector
+  19   1      
+  20   1              //Delay5ms();
+  21   1              
+  22   1              //IapProgramByte(IAP_ADDRESS,(BYTE)6);
+  23   1              //Delay5ms();
+  24   1              
+  25   1              while(1)
+  26   1              {
+  27   2                      if(flag_1s == 1)
+  28   2                      {
+  29   3                              if(time == 0)
+  30   3                                      time = 30;
+  31   3                              flag_1s = 0;
+  32   3                              time--;
+  33   3                      }
+  34   2                      switch(time)
+  35   2                      {
+  36   3                              case 30:                                        //奇数点亮
+  37   3                                      str[1]=0x00;
+  38   3                                      str[2]=ODD_LED_LIGHT;
+  39   3                                      break;
+  40   3                              case 20:                                        //偶数点亮
+  41   3                                      str[1]=0x00;
+  42   3                                      str[2]=EVEN_LED_LIGHT;
+  43   3                                      break;
+  44   3                              case 10:                                        //全亮
+  45   3                                      str[1]=ALL_LED_LIGHT;
+  46   3                                      break;
+  47   3                              default:
+  48   3                                      break;
+  49   3                      }
+  50   2      
+  51   2                      DigDisplay(time);
+  52   2                      
+  53   2                      key = KEY_Scan(0);      //不支持连续按 0不支持 1支持
+C51 COMPILER V9.56.0.0   MAIN                                                              03/24/2020 16:36:07 PAGE 2   
+
+  54   2                      if(key == 1)
+  55   2                      {
+  56   3                              IapProgramByte(IAP_ADDRESS,(BYTE)6);
+  57   3                      }       
+  58   2                      else if(key == 2)
+  59   2                      {
+  60   3                              UART_Putch(str);
+  61   3                              R_STA = 0;                      //处理完缓存区数据，重新开始接收
+  62   3                      }
+  63   2                      else if(key == 3)
+  64   2                      {
+  65   3                              str[1]=IapReadByte(IAP_ADDRESS);        //读取一个字节
+  66   3                      }
+  67   2                      
+  68   2                      UART_Putch(str);                        //下发控制命令
+  69   2                      Delay5ms();
+  70   2              }
+  71   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     93    ----
+   CODE SIZE        =    160    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      2    ----
-C51 COMPILER V9.56.0.0   MAIN                                                              03/23/2020 16:50:09 PAGE 2   
-
+   DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

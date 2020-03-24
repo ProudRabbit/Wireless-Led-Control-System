@@ -1,10 +1,11 @@
-C51 COMPILER V9.56.0.0   LED                                                               03/23/2020 16:48:30 PAGE 1   
+C51 COMPILER V9.56.0.0   LED                                                               03/24/2020 16:40:36 PAGE 1   
 
 
 C51 COMPILER V9.56.0.0, COMPILATION OF MODULE LED
 OBJECT MODULE PLACED IN ..\OBJ\led.obj
 COMPILER INVOKED BY: D:\Program_File\Keil_v5\C51\BIN\C51.EXE ..\HARDWARE\LED\led.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\HA
-                    -RDWARE;..\SYSTEM;..\HARDWARE\USART;..\HARDWARE\LED) DEBUG OBJECTEXTEND PRINT(.\Listings\led.lst) OBJECT(..\OBJ\led.obj)
+                    -RDWARE;..\SYSTEM;..\HARDWARE\USART;..\HARDWARE\LED;..\HARDWARE\EEPROM;..\HARDWARE\KEY) DEBUG OBJECTEXTEND PRINT(.\Listin
+                    -gs\led.lst) OBJECT(..\OBJ\led.obj)
 
 line level    source
 

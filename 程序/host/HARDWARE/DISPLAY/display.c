@@ -1,5 +1,5 @@
 #include "display.h"
-
+#include "delay.h"
 
 unsigned char code DIG_PLACE[8] = {0xfe,0xfd,0xfb,0xf7,0xef,0xdf,0xbf,0x7f};	//位选控制
 
@@ -19,8 +19,8 @@ unsigned char DisplayData[8]={0};	//存放要显示的段码
 void DigDisplay(int m)
 {
 	unsigned char i;
-	unsigned int j;
-
+	unsigned char j;
+	
 	DisplayData[7] = DIG_CODE[m%10];		//得到个位段码
 	DisplayData[6] = DIG_CODE[m/10];		//得到十位段码
 
@@ -29,8 +29,9 @@ void DigDisplay(int m)
 		
 		GPIO_PLACE = DIG_PLACE[i];	 	//输出位选
 		GPIO_DIG = DisplayData[i];     	//输出段码
-		j = 10;						 	//扫描间隔时间
-		while(j--);	
+		
+		j = 40;
+		while(j--);
 		GPIO_DIG = 0x00;			//消隐
 	}
 }

@@ -1,10 +1,11 @@
-C51 COMPILER V9.56.0.0   DELAY                                                             03/23/2020 16:48:30 PAGE 1   
+C51 COMPILER V9.56.0.0   DELAY                                                             03/24/2020 16:40:37 PAGE 1   
 
 
 C51 COMPILER V9.56.0.0, COMPILATION OF MODULE DELAY
 OBJECT MODULE PLACED IN ..\OBJ\delay.obj
 COMPILER INVOKED BY: D:\Program_File\Keil_v5\C51\BIN\C51.EXE ..\SYSTEM\delay.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\HARDWA
-                    -RE;..\SYSTEM;..\HARDWARE\USART;..\HARDWARE\LED) DEBUG OBJECTEXTEND PRINT(.\Listings\delay.lst) OBJECT(..\OBJ\delay.obj)
+                    -RE;..\SYSTEM;..\HARDWARE\USART;..\HARDWARE\LED;..\HARDWARE\EEPROM;..\HARDWARE\KEY) DEBUG OBJECTEXTEND PRINT(.\Listings\d
+                    -elay.lst) OBJECT(..\OBJ\delay.obj)
 
 line level    source
 

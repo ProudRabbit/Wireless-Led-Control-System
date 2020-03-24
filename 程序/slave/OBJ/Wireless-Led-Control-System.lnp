@@ -2,6 +2,8 @@
 "..\OBJ\main.obj",
 "..\OBJ\usart.obj",
 "..\OBJ\led.obj",
+"..\OBJ\eeprom.obj",
+"..\OBJ\key.obj",
 "..\OBJ\delay.obj" 
 TO "..\OBJ\Wireless-Led-Control-System" 
 PRINT(".\Listings\Wireless-Led-Control-System.m51") RAMSIZE(256) 

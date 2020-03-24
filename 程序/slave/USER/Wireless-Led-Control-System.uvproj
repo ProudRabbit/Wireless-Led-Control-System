@@ -311,7 +311,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\HARDWARE;..\SYSTEM;..\HARDWARE\USART;..\HARDWARE\LED</IncludePath>
+              <IncludePath>..\HARDWARE;..\SYSTEM;..\HARDWARE\USART;..\HARDWARE\LED;..\HARDWARE\EEPROM;..\HARDWARE\KEY</IncludePath>
             </VariousControls>
           </C51>
           <Ax51>
@@ -387,6 +387,16 @@
               <FileName>led.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\LED\led.c</FilePath>
+            </File>
+            <File>
+              <FileName>eeprom.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\EEPROM\eeprom.c</FilePath>
+            </File>
+            <File>
+              <FileName>key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\KEY\key.c</FilePath>
             </File>
           </Files>
         </Group>

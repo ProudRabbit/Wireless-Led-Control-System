@@ -1,7 +1,8 @@
 #include "usart.h"
 
-unsigned char R_X = 0; 
-unsigned char idata str[6] = {0x39,0x00,0x00,0x00,0x00,0x39};
+unsigned char R_STA = 0; 	//串口接收状态
+unsigned char res = 0;
+unsigned char idata str[USART_SIZE] = {0x39,0x00,0x00,0x00,0x00,0x93};	//串口数据缓存 0x39起 0x93结束
 
 /*******************************************************************************
 * 函数名         : UART_Init
@@ -42,24 +43,50 @@ void UART_Putch(uchar idata *dat)
 
 /*******************************************************************************
 * 函数名         : UART_IRQHandler
-* 功能		  	 : 串口中断服务函数，接收一帧数据
+* 功能		  	 : 串口中断服务函数，接收一帧数据 0x39起 0x93结束
 * 输入			 : 无
 * 输出			 : 无
 *******************************************************************************/
 void UART_IRQHandler() interrupt 4 
 {
  
-	  if(RI==1)  			//收到数据
-	  {
-			R_X=SBUF;
-			if(R_X==0x23)
-			{  
-				UART_Putch(str);
-				RI=0;
+	if(RI==1)  			//收到数据
+	{
+	  
+		res=SBUF;
+
+		if((R_STA&0x80)==0)		//接收未完成
+		{
+			
+			if((R_STA&0x40) == 0x40)	//接收到帧头
+			{
+
+				if(res != 0x93)
+				{
+					R_STA++;
+					if((R_STA&0x3f)>(USART_SIZE-2))		//接收溢出，重新接收
+					{
+						R_STA = 0;
+					}
+					str[R_STA&0x3f] = res;	//存到缓存区
+				}
+				else
+				{
+					R_STA|=0x80;		//接收到帧尾，标志一帧数据接收完成
+				}
 			}
 			else
 			{
-				RI=0;
+				if(res == 0x39)
+				{
+					R_STA |= 0x40;		//标志接收到帧头
+				}
+				else
+				{
+					R_STA = 0;
+				}
 			}
-	  }
+		}
+	}
+	RI = 0;
 }
