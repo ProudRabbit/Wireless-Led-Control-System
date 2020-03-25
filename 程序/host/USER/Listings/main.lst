@@ -1,0 +1,166 @@
+C51 COMPILER V9.56.0.0   MAIN                                                              03/25/2020 16:33:45 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN ..\OBJ\main.obj
+COMPILER INVOKED BY: D:\Program_File\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\HARDWARE;..\SYSTE
+                    -M;..\HARDWARE\DISPLAY;..\HARDWARE\USART;..\HARDWARE\TIM;..\HARDWARE\KEY;..\HARDWARE\EEPROM) DEBUG OBJECTEXTEND PRINT(.\L
+                    -istings\main.lst) OBJECT(..\OBJ\main.obj)
+
+line level    source
+
+   1          #include "sys.h"
+   2          #include "delay.h"
+   3          #include "display.h"
+   4          #include "usart.h"
+   5          #include "tim.h"
+   6          #include "key.h"
+   7          #include "eeprom.h"
+   8          
+   9          #define ODD_LED_LIGHT   0X01    //奇数点亮 使用str[2]
+  10          #define EVEN_LED_LIGHT  0X02    //偶数点亮 使用str[2]
+  11          #define ALL_LED_LIGHT   0X01    //全点亮使能命令 放在str[1]中
+  12          
+  13          uint time_com1=30;
+  14          uint time_com2=20;
+  15          uint time_com3=10;
+  16          BYTE var_tmp[4] ={0x00,0x00,0x00,0x00};         //缓存四个时间：时间，发送指令1的时间，发送�
+             -�令2的时间，发送指令3的时间
+  17          
+  18          uint Config_flag = 0;                                           //是否进入参数配置标志位 1位进入配置模式
+  19          uint index = 0;                                                         //记录设置的是第几个参数
+  20          
+  21          void main()
+  22          {
+  23   1              BYTE tmp =0;
+  24   1              
+  25   1              UART_Init();    //初始化串口
+  26   1              TIM_Init();             //初始化定时器
+  27   1              
+  28   1              
+  29   1              tmp=IapReadByte(IAP_ADDRESS);
+  30   1              if((tmp==0x00)||(tmp==0xff))                            //重新下载程序了，需要重新写入数据到ROM
+  31   1              {
+  32   2                      UpVarTmp(1);                                                    //更新var_tmp
+  33   2                      WriteVartoRom(var_tmp,sizeof(var_tmp));
+  34   2                      ClearVarTmp(sizeof(var_tmp));
+  35   2              }
+  36   1              else
+  37   1              {
+  38   2                      ReadRomToVar(var_tmp,sizeof(var_tmp));
+  39   2                      UpVarTmp(0);                                                    //更新var_tmp到Date
+  40   2                      ClearVarTmp(sizeof(var_tmp));
+  41   2              }
+  42   1              
+  43   1              
+  44   1              EA = 1;                         //开总中断
+  45   1              
+  46   1              while(1)
+  47   1              {
+  48   2                      
+  49   2                      if(Config_flag==0)                              //正常工作模式
+  50   2                      {
+  51   3                              if(flag_1s == 1)
+  52   3                              {
+C51 COMPILER V9.56.0.0   MAIN                                                              03/25/2020 16:33:45 PAGE 2   
+
+  53   4                                      if(time == 0)
+  54   4                                              time = time_backup;
+  55   4                                      flag_1s = 0;
+  56   4                                      time--;
+  57   4                              }
+  58   3                              if(time==time_com1)                                             //奇数点亮
+  59   3                              {                               
+  60   4                                      str[1]=0x00;
+  61   4                                      str[2]=ODD_LED_LIGHT;
+  62   4                              }
+  63   3                              else if(time==time_com2)                                //偶数点亮
+  64   3                              {
+  65   4                                      str[1]=0x00;
+  66   4                                      str[2]=EVEN_LED_LIGHT;
+  67   4                              }
+  68   3                              else if(time==time_com3)                                //全亮
+  69   3                              {
+  70   4                                      str[1]=ALL_LED_LIGHT;
+  71   4                              }
+  72   3      
+  73   3                              DigDisplay(time);                                               //数码管显示
+  74   3                              
+  75   3                              key = KEY_Scan(0);                                              //不支持连续按 0不支持 1支持
+  76   3                              if(key == 1)                                                    //切换配置模式
+  77   3                              {
+  78   4                                      Config_flag = 1;
+  79   4                                      EA = 0;
+  80   4                              }
+  81   3                              
+  82   3                              UART_Putch(str);                                                //下发控制命令
+  83   3                      }
+  84   2                      else
+  85   2                      {
+  86   3                              key = KEY_Scan(0);
+  87   3                              if(key == 1)                            //退出配置模式
+  88   3                              {
+  89   4                                      Config_flag = 0;
+  90   4                                      EA = 1;
+  91   4                              }
+  92   3                              else if(key == 4)
+  93   3                              {
+  94   4                                      index++;
+  95   4                              }
+  96   3                              
+  97   3                              switch(index)
+  98   3                              {
+  99   4                                      case 0:                                                         //配置时间
+ 100   4                                              key = KEY_Scan(1);
+ 101   4                                              if(key == 2) time_backup++;
+ 102   4                                              else if(key == 3) time_backup--;
+ 103   4                                              DigDisplay(time_backup);
+ 104   4                                              break;
+ 105   4                                      case 1:                                                         //配置下发指令1的时间
+ 106   4                                              key = KEY_Scan(1);
+ 107   4                                              if(key == 2) time_com1++;
+ 108   4                                              else if(key == 3) time_com1--;
+ 109   4                                              DigDisplay(time_com1);
+ 110   4                                              break;
+ 111   4                                      case 2:                                                         //配置下发指令2的时间
+ 112   4                                              key = KEY_Scan(1);
+ 113   4                                              if(key == 2) time_com2++;
+ 114   4                                              else if(key == 3) time_com2--;
+C51 COMPILER V9.56.0.0   MAIN                                                              03/25/2020 16:33:45 PAGE 3   
+
+ 115   4                                              DigDisplay(time_com2);
+ 116   4                                              break;
+ 117   4                                      case 3:                                                         //配置下发指令3的时间
+ 118   4                                              key = KEY_Scan(1);
+ 119   4                                              if(key == 2) time_com3++;
+ 120   4                                              else if(key == 3) time_com3--;
+ 121   4                                              DigDisplay(time_com3);
+ 122   4                                              break;
+ 123   4                                      default:                                                        //写入数据到ROM
+ 124   4                                              UpVarTmp(1);
+ 125   4                                              WriteVartoRom(var_tmp,sizeof(var_tmp));
+ 126   4                                              UpVarTmp(0);
+ 127   4                                              ClearVarTmp(sizeof(var_tmp));
+ 128   4                                              Config_flag = 0;
+ 129   4                                              index = 0;
+ 130   4                                              EA = 1;
+ 131   4                                              break;
+ 132   4                              }
+ 133   3                      }
+ 134   2                      Delay5ms();
+ 135   2              }
+ 136   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    533    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     14    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

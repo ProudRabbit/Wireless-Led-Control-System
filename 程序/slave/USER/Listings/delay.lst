@@ -1,0 +1,65 @@
+C51 COMPILER V9.56.0.0   DELAY                                                             03/25/2020 16:38:29 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE DELAY
+OBJECT MODULE PLACED IN ..\OBJ\delay.obj
+COMPILER INVOKED BY: D:\Program_File\Keil_v5\C51\BIN\C51.EXE ..\SYSTEM\delay.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\HARDWA
+                    -RE;..\SYSTEM;..\HARDWARE\USART;..\HARDWARE\LED;..\HARDWARE\EEPROM;..\HARDWARE\KEY) DEBUG OBJECTEXTEND PRINT(.\Listings\d
+                    -elay.lst) OBJECT(..\OBJ\delay.obj)
+
+line level    source
+
+   1          #include "delay.h"
+   2          
+   3          
+   4          /**************************************
+   5          延时n毫秒(STC90C52RC@12M)
+   6          不同的工作环境,需要调整此函数，注意时钟过快时需要修改
+   7          **************************************/
+   8          void delay_nms(unsigned int k)  
+   9          {                                               
+  10   1              unsigned int i,j;       
+  11   1              
+  12   1              for(i=0;i<k;i++)
+  13   1              {                       
+  14   2                      for(j=0;j<121;j++)                      
+  15   2                      {;}
+  16   2              }                                               
+  17   1      }
+  18          
+  19          /**************************************
+  20          延时5微秒(STC90C52RC@12M)
+  21          不同的工作环境,需要调整此函数，注意时钟过快时需要修改
+  22          **************************************/
+  23          //void Delay5us()
+  24          //{
+  25          //    _nop_();_nop_();_nop_();_nop_();
+  26          //    _nop_();_nop_();_nop_();_nop_();
+  27          //      _nop_();_nop_();_nop_();_nop_();
+  28          //      _nop_();_nop_();_nop_();_nop_();
+  29          //}
+  30          
+  31          /**************************************
+  32          延时5毫秒(STC90C52RC@12M)
+  33          不同的工作环境,需要调整此函数
+  34          **************************************/
+  35          void Delay5ms()
+  36          {
+  37   1          uint n = 560;
+  38   1      
+  39   1          while (n--);
+  40   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     47    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

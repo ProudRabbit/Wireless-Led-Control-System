@@ -1,0 +1,72 @@
+C51 COMPILER V9.56.0.0   DISPLAY                                                           03/25/2020 14:46:28 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE DISPLAY
+OBJECT MODULE PLACED IN ..\OBJ\display.obj
+COMPILER INVOKED BY: D:\Program_File\Keil_v5\C51\BIN\C51.EXE ..\HARDWARE\DISPLAY\display.c OPTIMIZE(8,SPEED) BROWSE INCD
+                    -IR(..\HARDWARE;..\SYSTEM;..\HARDWARE\DISPLAY;..\HARDWARE\USART;..\HARDWARE\TIM;..\HARDWARE\KEY;..\HARDWARE\EEPROM) DEBUG
+                    - OBJECTEXTEND PRINT(.\Listings\display.lst) OBJECT(..\OBJ\display.obj)
+
+line level    source
+
+   1          #include "display.h"
+   2          #include "delay.h"
+   3          
+   4          #if DIG_PLACE_SELECT
+                      unsigned char code DIG_PLACE[8] = {0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80};    //位选控制 阳极接法
+              #else
+   7                  unsigned char code DIG_PLACE[8] = {0xfe,0xfd,0xfb,0xf7,0xef,0xdf,0xbf,0x7f};    //位选控制 阴极接法
+   8          #endif
+   9          
+  10          #if DIG_DIG_CODE_SELECT 
+                      unsigned char code DIG_CODE[10] = {0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,0x80,0x90};
+                                                                                              //0 1 2 3 4 5 6 7 8 9的段码 共阳极接法
+              #else
+  14                  unsigned char code DIG_CODE[10] = {0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f};
+  15                                                                                          //0 1 2 3 4 5 6 7 8 9的段码 共阴极接法
+  16          #endif
+  17                                                                                  
+  18          unsigned char DisplayData[8]={0};       //存放要显示的段码
+  19          
+  20          /*******************************************************************************
+  21          * 函数名         : DigDisplay
+  22          * 功能                         : 数码管动态显示
+  23          * 输入                         ：时间0 - 60秒
+  24          * 输出                         : 无
+  25          *******************************************************************************/
+  26          
+  27          void DigDisplay(int m)
+  28          {
+  29   1              unsigned char i;
+  30   1              unsigned char j;
+  31   1              
+  32   1              DisplayData[7] = DIG_CODE[m%10];                //得到个位段码
+  33   1              DisplayData[6] = DIG_CODE[m/10];                //得到十位段码
+  34   1      
+  35   1              for(i=0; i<8; i++)
+  36   1              {
+  37   2                      
+  38   2                      GPIO_PLACE = DIG_PLACE[i];              //输出位选
+  39   2                      GPIO_DIG = DisplayData[i];      //输出段码
+  40   2                      
+  41   2                      j = 40;
+  42   2                      while(j--);
+  43   2                      GPIO_DIG = 0x00;                        //消隐
+  44   2              }
+  45   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     82    ----
+   CONSTANT SIZE    =     18    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8    ----
+C51 COMPILER V9.56.0.0   DISPLAY                                                           03/25/2020 14:46:28 PAGE 2   
+
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

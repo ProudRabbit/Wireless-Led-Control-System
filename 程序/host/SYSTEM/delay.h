@@ -5,8 +5,8 @@
 #include "sys.h"
 
 
-void delay_nms(unsigned int k);
-void Delay5us();
+void Delay_nms(unsigned int k);
+//void Delay5us();
 void Delay5ms();
 
 

@@ -1,0 +1,66 @@
+C51 COMPILER V9.56.0.0   TIM                                                               03/25/2020 14:42:19 PAGE 1   
+
+
+C51 COMPILER V9.56.0.0, COMPILATION OF MODULE TIM
+OBJECT MODULE PLACED IN ..\OBJ\tim.obj
+COMPILER INVOKED BY: D:\Program_File\Keil_v5\C51\BIN\C51.EXE ..\HARDWARE\TIM\tim.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\HA
+                    -RDWARE;..\SYSTEM;..\HARDWARE\DISPLAY;..\HARDWARE\USART;..\HARDWARE\TIM;..\HARDWARE\KEY;..\HARDWARE\EEPROM) DEBUG OBJECTE
+                    -XTEND PRINT(.\Listings\tim.lst) OBJECT(..\OBJ\tim.obj)
+
+line level    source
+
+   1          #include "tim.h"
+   2          
+   3          
+   4          unsigned int t = 0;
+   5          uint flag_1s = 0;
+   6          int time = 30;
+   7          int time_backup =30;
+   8          
+   9          /*******************************************************************************
+  10          * 函数名         : TIM_Init
+  11          * 功能                         : 初始化定时器0
+  12          * 输入                         ：无
+  13          * 输出                         : 无
+  14          *******************************************************************************/
+  15          void TIM_Init()
+  16          {
+  17   1              TMOD |= 0X01;                           //定时器0工作方式1
+  18   1              TH0 = (65536-50000)/256;        //定时50毫秒
+  19   1              TL0 = (65536-50000)%256;
+  20   1              ET0 = 1;                                        //开定时器0中断
+  21   1              TR0 = 1;                                        //启动定时器0
+  22   1      }
+  23          
+  24          
+  25          /*******************************************************************************
+  26          * 函数名         : TIM_IRQHandler
+  27          * 功能                         : 一秒更新一次flag_1s标志位
+  28          * 输入                         ：无
+  29          * 输出                         : 无
+  30          *******************************************************************************/
+  31          void TIM_IRQHandler() interrupt 1
+  32          {
+  33   1              TH0 = (65536-50000)/256;
+  34   1              TL0 = (65536-50000)%256;
+  35   1              t++;
+  36   1              if(t == 20)
+  37   1              {
+  38   2                      flag_1s = 1;
+  39   2                      t = 0;
+  40   2              }
+  41   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     48    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
