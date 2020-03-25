@@ -1,4 +1,4 @@
-C51 COMPILER V9.56.0.0   USART                                                             03/24/2020 15:30:51 PAGE 1   
+C51 COMPILER V9.56.0.0   USART                                                             03/25/2020 14:04:20 PAGE 1   
 
 
 C51 COMPILER V9.56.0.0, COMPILATION OF MODULE USART
@@ -26,7 +26,7 @@ line level    source
   14          {  
   15   1              TMOD|=0X20;     //定时器1定时器方式 工作模式2
   16   1              SCON=0X51;              //选择工作模式1使能接收，允许发送，允许接收 
-  17   1              EA=1;                   //开总中断  
+  17   1              //EA=1;                         //开总中断  
   18   1              ES=1;                   //开串口中断
   19   1              ET1=0;                  //开定时器中断    
   20   1              PCON=0X80;              //8位自动重载，波特率加倍    
@@ -62,7 +62,7 @@ line level    source
   50          void UART_IRQHandler() interrupt 4 
   51          {
   52   1       
-C51 COMPILER V9.56.0.0   USART                                                             03/24/2020 15:30:51 PAGE 2   
+C51 COMPILER V9.56.0.0   USART                                                             03/25/2020 14:04:20 PAGE 2   
 
   53   1              if(RI==1)                       //收到数据
   54   1              {
@@ -107,7 +107,7 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    123    ----
+   CODE SIZE        =    121    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

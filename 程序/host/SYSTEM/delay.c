@@ -5,7 +5,7 @@
 延时n毫秒(STC90C52RC@12M)
 不同的工作环境,需要调整此函数，注意时钟过快时需要修改
 **************************************/
-void delay_nms(unsigned int k)	
+void Delay_nms(unsigned int k)	
 {						
 	unsigned int i,j;	
 	

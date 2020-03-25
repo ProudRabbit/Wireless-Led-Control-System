@@ -1,4 +1,4 @@
-C51 COMPILER V9.56.0.0   KEY                                                               03/23/2020 16:32:18 PAGE 1   
+C51 COMPILER V9.56.0.0   KEY                                                               03/25/2020 14:46:39 PAGE 1   
 
 
 C51 COMPILER V9.56.0.0, COMPILATION OF MODULE KEY
@@ -29,7 +29,7 @@ line level    source
   18   1              
   19   1              if((KeyUp_flag == 1)&&(KEY0 == 0||KEY1 ==0||KEY2 == 0||KEY3 == 0))
   20   1              {
-  21   2                      delay_nms(10);          //消抖
+  21   2                      Delay_nms(20);          //消抖
   22   2                      KeyUp_flag = 0;
   23   2                      if(KEY0 == 0)return 1;
   24   2                      else if(KEY1 == 0)return 2;

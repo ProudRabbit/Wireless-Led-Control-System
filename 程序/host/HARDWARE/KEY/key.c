@@ -18,7 +18,7 @@ int KEY_Scan(int mode)
 	
 	if((KeyUp_flag == 1)&&(KEY0 == 0||KEY1 ==0||KEY2 == 0||KEY3 == 0))
 	{
-		delay_nms(10);		//消抖
+		Delay_nms(20);		//消抖
 		KeyUp_flag = 0;
 		if(KEY0 == 0)return 1;
 		else if(KEY1 == 0)return 2;

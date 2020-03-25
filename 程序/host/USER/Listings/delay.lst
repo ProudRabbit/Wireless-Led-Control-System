@@ -1,4 +1,4 @@
-C51 COMPILER V9.56.0.0   DELAY                                                             03/23/2020 16:53:06 PAGE 1   
+C51 COMPILER V9.56.0.0   DELAY                                                             03/25/2020 14:46:28 PAGE 1   
 
 
 C51 COMPILER V9.56.0.0, COMPILATION OF MODULE DELAY
@@ -16,7 +16,7 @@ line level    source
    5          延时n毫秒(STC90C52RC@12M)
    6          不同的工作环境,需要调整此函数，注意时钟过快时需要修改
    7          **************************************/
-   8          void delay_nms(unsigned int k)  
+   8          void Delay_nms(unsigned int k)  
    9          {                                               
   10   1              unsigned int i,j;       
   11   1              
