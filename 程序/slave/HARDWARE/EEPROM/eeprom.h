@@ -2,6 +2,7 @@
 #define _EEPROM_H_
 
 #include "sys.h"
+//#include "tim.h"
 
 /*Declare SFR associated with the IAP */
 sfr IAP_DATA    =   0xE2;           //Flash data register
@@ -26,12 +27,21 @@ sfr IAP_CONTR   =   0xE7;           //Flash control register
 //Start address for STC89C58xx EEPROM
 #define IAP_ADDRESS 0x08000
 
-void Delay(BYTE n);
+extern BYTE var_tmp[4];
+extern uint time_com1;
+extern uint time_com2;
+extern uint time_com3;
+
+//void Delay(BYTE n);
 void IapIdle();
 BYTE IapReadByte(WORD addr);
 void IapProgramByte(WORD addr, BYTE dat);
-void IapEraseSector(WORD addr);
+//void IapEraseSector(WORD addr);
 
 
+//void WriteVartoRom(BYTE* arr,uint SIZE);
+//void ReadRomToVar(BYTE* arr,uint SIZE);
+//void UpVarTmp(int mode);
+//void ClearVarTmp(uint SIZE);
 
 #endif
