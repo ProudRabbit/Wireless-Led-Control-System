@@ -3,6 +3,7 @@
 #include "delay.h"
 #include "led.h"
 #include "key.h"
+#include "eeprom.h"
 
 unsigned char ID = 0x03;				//设备ID
 unsigned char comd1 = 0x00;					//全部点亮忽视ID
@@ -12,10 +13,24 @@ uint index = 0;								//记录设置的是第几个参数
 
 void main()
 {
+	BYTE tmp =0;
 	int key = 0;
+	
 	UART_Init();
+	
+	tmp=IapReadByte(IAP_ADDRESS);
+	if((tmp==0x00)||(tmp==0xff))				//重新下载程序了，需要重新写入数据到ROM
+	{
+		IapProgramByte(IAP_ADDRESS,ID);			//更新ID
+	}
+	else
+	{
+		ID = tmp;								//读取上次配置的ID
+	}
+	
 	EA = 1;
 	P0 = 0X00;
+	
 	while(1)
 	{
 		if(Config_flag==0)				//正常工作模式
@@ -57,11 +72,17 @@ void main()
 			else if(key == 2)
 			{
 				ID = 0x01;
+				IapProgramByte(IAP_ADDRESS,ID);			//更新ID
+				Config_flag = 0;
+				EA = 1;
 				P0 |=0X04;
 			}
 			else if(key == 3)
 			{
 				ID = 0x02;
+				IapProgramByte(IAP_ADDRESS,ID);			//更新ID
+				Config_flag = 0;
+				EA = 1;
 				P0 |=0X02;
 			}
 		}
