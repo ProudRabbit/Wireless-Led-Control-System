@@ -7,10 +7,10 @@
 
 extern unsigned char R_STA;
 extern unsigned char res;
-extern unsigned char idata str[USART_SIZE];
+extern unsigned char str[USART_SIZE];
 
 extern void UART_Init();
-extern void UART_Putch(unsigned char idata *dat);
+extern void UART_Putch(uchar idata *dat) ;
 
 
 #endif

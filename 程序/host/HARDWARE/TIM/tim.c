@@ -3,8 +3,8 @@
 
 unsigned int t = 0;
 uint flag_1s = 0;
-int time = 30;
-int time_backup =30;
+uint time = 30;
+uint time_backup =30;
 
 /*******************************************************************************
 * 函数名         : TIM_Init

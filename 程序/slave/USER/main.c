@@ -5,7 +5,7 @@
 #include "key.h"
 #include "eeprom.h"
 
-unsigned char ID = 0x03;				//设备ID
+unsigned char ID = 0x03;					//设备ID
 unsigned char comd1 = 0x00;					//全部点亮忽视ID
 unsigned char comd2 = 0x00;					//根据ID点亮
 uint Config_flag = 0;						//是否进入参数配置标志位 1位进入配置模式
@@ -18,14 +18,9 @@ void main()
 	
 	UART_Init();
 	
-	tmp=IapReadByte(IAP_ADDRESS);
-	if((tmp==0x00)||(tmp==0xff))				//重新下载程序了，需要重新写入数据到ROM
+	if(AT24C02_Check()==0)
 	{
-		IapProgramByte(IAP_ADDRESS,ID);			//更新ID
-	}
-	else
-	{
-		ID = tmp;								//读取上次配置的ID
+		ID = ReadOneByte(0);				//存有数据，读出ID值
 	}
 	
 	EA = 1;
@@ -48,7 +43,7 @@ void main()
 			{
 				Config_flag = 1;
 				EA = 0;
-				P0 |=0X80; 
+				P0 |= 0X80; 
 			}
 			
 			if((comd1 == 0x01)||(comd2 == ID))
@@ -67,22 +62,20 @@ void main()
 			{
 				Config_flag = 0;
 				EA = 1;
-				P0 =0X00;
+				P0 &= 0x7f;
 			}
 			else if(key == 2)
 			{
 				ID = 0x01;
-				IapProgramByte(IAP_ADDRESS,ID);			//更新ID
-				Config_flag = 0;
-				EA = 1;
+				WriteOneByte(0,ID);					//更新ID
+				WriteOneByte(255,0x55);				//更新标志位
 				P0 |=0X04;
 			}
 			else if(key == 3)
 			{
 				ID = 0x02;
-				IapProgramByte(IAP_ADDRESS,ID);			//更新ID
-				Config_flag = 0;
-				EA = 1;
+				WriteOneByte(0,ID);					//更新ID
+				WriteOneByte(255,0x55);				//更新标志位
 				P0 |=0X02;
 			}
 		}
