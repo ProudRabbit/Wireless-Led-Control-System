@@ -1,4 +1,4 @@
-C51 COMPILER V9.56.0.0   MAIN                                                              03/25/2020 18:05:50 PAGE 1   
+C51 COMPILER V9.56.0.0   MAIN                                                              03/31/2020 18:20:23 PAGE 1   
 
 
 C51 COMPILER V9.56.0.0, COMPILATION OF MODULE MAIN
@@ -16,7 +16,7 @@ line level    source
    5          #include "key.h"
    6          #include "eeprom.h"
    7          
-   8          unsigned char ID = 0x03;                                //设备ID
+   8          unsigned char ID = 0x03;                                        //设备ID
    9          unsigned char comd1 = 0x00;                                     //全部点亮忽视ID
   10          unsigned char comd2 = 0x00;                                     //根据ID点亮
   11          uint Config_flag = 0;                                           //是否进入参数配置标志位 1位进入配置模式
@@ -29,82 +29,75 @@ line level    source
   18   1              
   19   1              UART_Init();
   20   1              
-  21   1              tmp=IapReadByte(IAP_ADDRESS);
-  22   1              if((tmp==0x00)||(tmp==0xff))                            //重新下载程序了，需要重新写入数据到ROM
-  23   1              {
-  24   2                      IapProgramByte(IAP_ADDRESS,ID);                 //更新ID
-  25   2              }
-  26   1              else
-  27   1              {
-  28   2                      ID = tmp;                                                               //读取上次配置的ID
-  29   2              }
-  30   1              
-  31   1              EA = 1;
-  32   1              P0 = 0X00;
-  33   1              
-  34   1              while(1)
-  35   1              {
-  36   2                      if(Config_flag==0)                              //正常工作模式
-  37   2                      {
-  38   3                              if((R_STA&0x80)==0x80)
-  39   3                              {
-  40   4                                      comd1 = str[1];
-  41   4                                      comd2 = str[2];
-  42   4                                      R_STA = 0;              //处理数据后清除串口接收标志
-  43   4                                      //UART_Putch(str);
-  44   4                              }
-  45   3                              
-  46   3                              key = KEY_Scan(0);
-  47   3                              if(key == 1)                                                    //切换配置模式
-  48   3                              {
-  49   4                                      Config_flag = 1;
-  50   4                                      EA = 0;
-  51   4                                      P0 |=0X80; 
+  21   1              if(AT24C02_Check()==0)
+  22   1              {
+  23   2                      ID = ReadOneByte(0);                            //存有数据，读出ID值
+  24   2              }
+  25   1              
+  26   1              EA = 1;
+  27   1              P0 = 0X00;
+  28   1              
+  29   1              while(1)
+  30   1              {
+  31   2                      if(Config_flag==0)                              //正常工作模式
+  32   2                      {
+  33   3                              if((R_STA&0x80)==0x80)
+  34   3                              {
+  35   4                                      comd1 = str[1];
+  36   4                                      comd2 = str[2];
+  37   4                                      R_STA = 0;              //处理数据后清除串口接收标志
+  38   4                                      //UART_Putch(str);
+  39   4                              }
+  40   3                              
+  41   3                              key = KEY_Scan(0);
+  42   3                              if(key == 1)                                                    //切换配置模式
+  43   3                              {
+  44   4                                      Config_flag = 1;
+  45   4                                      EA = 0;
+  46   4                                      P0 |= 0X80; 
+  47   4                              }
+  48   3                              
+  49   3                              if((comd1 == 0x01)||(comd2 == ID))
+  50   3                              {
+  51   4                                      Led_ON();
   52   4                              }
-  53   3                              
-C51 COMPILER V9.56.0.0   MAIN                                                              03/25/2020 18:05:50 PAGE 2   
+  53   3                              else
+C51 COMPILER V9.56.0.0   MAIN                                                              03/31/2020 18:20:23 PAGE 2   
 
-  54   3                              if((comd1 == 0x01)||(comd2 == ID))
-  55   3                              {
-  56   4                                      Led_ON();
-  57   4                              }
-  58   3                              else
-  59   3                              {
-  60   4                                      Led_OFF();
-  61   4                              }
-  62   3                      }
-  63   2                      else
-  64   2                      {
-  65   3                              key = KEY_Scan(0);
-  66   3                              if(key == 1)                            //退出配置模式
-  67   3                              {
-  68   4                                      Config_flag = 0;
-  69   4                                      EA = 1;
-  70   4                                      P0 =0X00;
-  71   4                              }
-  72   3                              else if(key == 2)
-  73   3                              {
-  74   4                                      ID = 0x01;
-  75   4                                      IapProgramByte(IAP_ADDRESS,ID);                 //更新ID
-  76   4                                      Config_flag = 0;
-  77   4                                      EA = 1;
-  78   4                                      P0 |=0X04;
-  79   4                              }
-  80   3                              else if(key == 3)
-  81   3                              {
-  82   4                                      ID = 0x02;
-  83   4                                      IapProgramByte(IAP_ADDRESS,ID);                 //更新ID
-  84   4                                      Config_flag = 0;
-  85   4                                      EA = 1;
-  86   4                                      P0 |=0X02;
-  87   4                              }
-  88   3                      }
-  89   2              }
-  90   1      }
+  54   3                              {
+  55   4                                      Led_OFF();
+  56   4                              }
+  57   3                      }
+  58   2                      else
+  59   2                      {
+  60   3                              key = KEY_Scan(0);
+  61   3                              if(key == 1)                            //退出配置模式
+  62   3                              {
+  63   4                                      Config_flag = 0;
+  64   4                                      EA = 1;
+  65   4                                      P0 &= 0x7f;
+  66   4                              }
+  67   3                              else if(key == 2)
+  68   3                              {
+  69   4                                      ID = 0x01;
+  70   4                                      WriteOneByte(0,ID);                                     //更新ID
+  71   4                                      WriteOneByte(255,0x55);                         //更新标志位
+  72   4                                      P0 |=0X04;
+  73   4                              }
+  74   3                              else if(key == 3)
+  75   3                              {
+  76   4                                      ID = 0x02;
+  77   4                                      WriteOneByte(0,ID);                                     //更新ID
+  78   4                                      WriteOneByte(255,0x55);                         //更新标志位
+  79   4                                      P0 |=0X02;
+  80   4                              }
+  81   3                      }
+  82   2              }
+  83   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    212    ----
+   CODE SIZE        =    196    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

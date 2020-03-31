@@ -1,4 +1,4 @@
-C51 COMPILER V9.56.0.0   TIM                                                               03/25/2020 14:42:19 PAGE 1   
+C51 COMPILER V9.56.0.0   TIM                                                               03/31/2020 18:12:26 PAGE 1   
 
 
 C51 COMPILER V9.56.0.0, COMPILATION OF MODULE TIM
@@ -14,8 +14,8 @@ line level    source
    3          
    4          unsigned int t = 0;
    5          uint flag_1s = 0;
-   6          int time = 30;
-   7          int time_backup =30;
+   6          uint time = 30;
+   7          uint time_backup =30;
    8          
    9          /*******************************************************************************
   10          * 函数名         : TIM_Init
